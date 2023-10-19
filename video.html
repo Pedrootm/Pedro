@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalhes do Anime</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+
+  video {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+  <div id="videoContainer"></div>
+
+
+  <script>
+
+function checkForMetaTag() {
+      const animeInfo = document.getElementById('videoContainer');
+      const content = animeInfo.innerHTML; 
+
+     
+      const regex = /<meta itemprop="contentURL" content="https:\/\/ikaros\.anicdn\.net\/(.*?)\"/;
+      const match = content.match(regex);
+
+      if (match) {
+        const extractedText = match[1]; 
+        var novoSrc = "https://www.anitube.vip/playerricas.php?name=apphd/.mp4&img=https://www.anitube.vip/media/videos/tmb/183072/default.jpg&url=https://ikaros.anicdn.net/" + extractedText; 
+
+
+        document.getElementById("video").src = novoSrc;
+      }
+    }
+
+
+
+    $(document).ready(function() {
+     
+      const videoPath = new URLSearchParams(window.location.search).get('videoPath');
+
+     
+      $.get(`http://localhost:3000/video?url=${videoPath}`, function(data) {
+        $('#videoContainer').html(data);
+
+          checkForMetaTag();
+
+      });
+    });
+
+
+
+  </script>
+
+
+<iframe  id="video" frameborder="0" scrolling="no" allow="autoplay" allowfullscreen mozallowfullscreen msallowfullscreen oallowfullscreen webkitallowfullscreen></iframe>
+</body>
+</html>

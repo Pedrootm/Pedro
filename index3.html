@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime Scraper</title>
+</head>
+<body>
+  <input type="text" id="animeUrl" placeholder="Insira o URL do anime">
+  <button onclick="fetchData()">Buscar Anime</button>
+  <div id="result"></div>
+
+  <script>
+    let clickedLink; // Variável para armazenar o endereço do link clicado
+
+    async function fetchData() {
+      const animeUrl = document.getElementById('animeUrl').value;
+      const response = await fetch(`http://localhost:3000/scrape?url=${animeUrl}`);
+      const content = await response.text();
+      document.getElementById('result').innerHTML = content;
+
+      const links = document.querySelectorAll("a[href^='/video/']");
+      links.forEach(link => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault(); // Impede a ação padrão do link
+          clickedLink = link.href;
+          modifyLink = clickedLink.replace('http://localhost', 'https://www.anitube.vip');
+          console.log(`Link modificado: ${modifyLink}`);
+          window.open(`video.html?videoPath=${modifyLink}`, '_blank');
+        });
+      });
+    }
+
+   
+  </script>
+</body>
+</html>
+
